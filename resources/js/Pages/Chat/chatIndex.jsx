@@ -3,16 +3,6 @@ import { Head } from '@inertiajs/react';
 import { useState, useEffect } from 'react';
 
 export default function chatIndex({ auth }) {
-    const [message, setMessage] = useState('');
-
-    useEffect(() => {
-        Echo.channel(`messanger`)
-            .listen('messageSent', (e) => {
-                console.log(e);
-                setMessage(e.message);
-            });
-    }, []);
-
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -23,7 +13,6 @@ export default function chatIndex({ auth }) {
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     <div className="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                         <div className="p-6 text-gray-900 dark:text-gray-100">Chat</div>
-                        <p className='text-white'>{message}</p>
                     </div>
                 </div>
             </div>
