@@ -20,20 +20,20 @@ createInertiaApp({
     },
 });
 
-Echo.private(`messenger`)
+Echo.private(`messenger.1.2`)
 .listen('messageSent', (e) => {
     console.log(e);
 });
 
-Echo.join(`group_chat.1`
-) .here((users)=>{
-    console.log(users);
-}).joining((user)=>{
-    console.log(user);
-}).leaving((user)=>{
-    console.log(user);
-}).listen('groupMessageSent', (e) => {
-    console.log(e);
-}).error((error)=>{
-    console.log(error);
-});
+// Echo.join(`group_chat.1`
+// ) .here((users)=>{
+//     console.log(users);
+// }).joining((user)=>{
+//     console.log(user);
+// }).leaving((user)=>{
+//     console.log(user);
+// }).listen('groupMessageSent', (e) => {
+//     console.log(e);
+// }).error((error)=>{
+//     console.log(error);
+// });

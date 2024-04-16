@@ -4,7 +4,9 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
 import { useState, useEffect } from 'react';
 
-export default function chatIndex({ auth }) {
+export default function chatIndex(props) {
+    const { auth, errors, recentMessages, receiver, messages } = props;
+    console.log(props);
     return (
         <AuthenticatedLayout
             user={auth.user}
