@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Models\User;
 use App\Repositories\ChatRepository;
+use Illuminate\Support\Facades\Redirect;
 
 class MessageController extends Controller
 {
@@ -41,7 +42,7 @@ class MessageController extends Controller
                 'receiver_id' => $receiverId,
                 'message' => $request->message,
             ]);
-            dd($message);
+
             event(new \App\Events\messageSent($message));
 
             return Redirect::route('chat.index', $receiverId);

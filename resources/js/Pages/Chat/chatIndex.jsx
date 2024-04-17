@@ -1,12 +1,12 @@
 import ChatBox from '@/Components/Chat/ChatBox';
 import ChatSidebar from '@/Components/Chat/ChatSidebar';
+import MessageInput from '@/Components/Chat/MessageInput';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
 import { useState, useEffect } from 'react';
 
 export default function chatIndex(props) {
     const { auth, errors, recentMessages, receiver, messages } = props;
-    console.log(props);
 
     return (
         <AuthenticatedLayout user={auth.user}>
@@ -16,14 +16,21 @@ export default function chatIndex(props) {
                     <div className="flex h-screen antialiased text-gray-800">
                         <div className="flex flex-row h-full w-full overflow-x-hidden">
                             <ChatSidebar recentMessages={props.recentMessages} />
-                            <div className="flex-grow flex justify-center items-center">
-                                <p className="text-gray-600 mb-20 text-2xl">
-                                    select the user you want to chat with!
-                                </p>
+                            <div className="flex-grow">
+                                {props.receiver?.id ? (
+                                    <>
+                                        <p className="text-lg bg-white text-black font-semibold">{props.receiver.name}</p>
+                                        <ChatBox messages={props.messages} auth_id={props.auth?.user?.id}/> 
+                                        <MessageInput receiver={props.receiver}/>
+                                    </>
+                                ) : (
+                                    <div className="flex justify-center items-center h-full">
+                                        <p className="text-gray-600 text-2xl">
+                                            Select the user you want to chat with!
+                                        </p>
+                                    </div>
+                                )}
                             </div>
-                            {/*
-                            <ChatBox /> 
-                            */}
                         </div>
                     </div>
                 </div>
