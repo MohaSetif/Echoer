@@ -3,10 +3,9 @@ import ChatSidebar from '@/Components/Chat/ChatSidebar';
 import MessageInput from '@/Components/Chat/MessageInput';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
-import { useState, useEffect } from 'react';
 
 export default function chatIndex(props) {
-    const { auth, errors, recentMessages, receiver, messages } = props;
+    const { auth } = props;
 
     return (
         <AuthenticatedLayout user={auth.user}>
