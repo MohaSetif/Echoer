@@ -6,15 +6,48 @@ import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
 import { Head, Link, useForm } from '@inertiajs/react';
 
+
 export default function Register() {
     const { data, setData, post, processing, errors, reset } = useForm({
         name: '',
         email: '',
         password: '',
         password_confirmation: '',
+        public_key: ''
     });
 
+    const generateKeys = async () =>{
+        const { publicKey, privateKey } = await window.crypto.subtle.generateKey(
+            {
+              name: "RSA-OAEP",
+              modulusLength: 4096,
+              publicExponent: new Uint8Array([1, 0, 1]),
+              hash: "SHA-256",
+            },
+            true,
+            ["encrypt", "decrypt"],
+        );
+         // Convert public key to PEM format to be easily readable
+        const exportedPublicKey = await window.crypto.subtle.exportKey("spki", publicKey);
+        const exportedPublicKeyPEM = `
+        -----BEGIN PUBLIC KEY-----
+        ${arrayBufferToBase64String(exportedPublicKey)}
+        -----END PUBLIC KEY-----
+        `;
+        setData('public_key', exportedPublicKeyPEM);
+    }
+
+    const arrayBufferToBase64String = (buffer) => {
+        const bytes = new Uint8Array(buffer);
+        let binary = '';
+        bytes.forEach((byte) => {
+            binary += String.fromCharCode(byte);
+        });
+        return window.btoa(binary);
+    };
+
     useEffect(() => {
+        generateKeys()
         return () => {
             reset('password', 'password_confirmation');
         };

@@ -13,6 +13,7 @@ function ChatBox({ messages, auth_id }) {
     }
   }
 
+
   const messagesEndRef = useRef(null);
   console.log(messagesEndRef);
   useEffect(() => {

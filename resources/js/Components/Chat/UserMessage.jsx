@@ -15,7 +15,7 @@ function FriendMessage({ message }) {
   return (
     <div className="col-start-1 col-end-8 p-1 rounded-lg">
       <div className="flex items-center justify-start flex-row-reverse">
-        <div className="relative ml-3 text-sm text-white bg-slate-500 max-w-md py-2 px-4 shadow rounded-xl break-words">
+        <div className="relative ml-3 text-sm text-white bg-slate-500 py-2 px-4 shadow rounded-xl break-words">
         <div className='text-base'>{message.message}</div>
           <div className='text-xs text-white/50 flex items-center justify-start flex-row-reverse'>{chatHour}</div>
         </div>

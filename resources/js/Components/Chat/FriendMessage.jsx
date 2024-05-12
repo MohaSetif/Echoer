@@ -1,6 +1,6 @@
 import React from 'react';
 
-function Message({ message }) {
+function FriendMessage({ message }) {
 
   const createdAt = new Date(message.created_at);
   const year = createdAt.getFullYear();
@@ -15,7 +15,7 @@ function Message({ message }) {
   return (
     <div className="col-start-6 col-end-13 p-1 rounded-lg">
       <div className="flex flex-row items-center">
-        <div className="relative ml-3 text-sm text-white bg-slate-600 py-2 px-4 shadow rounded-xl">
+        <div className="relative ml-3 text-sm text-white bg-slate-600 py-2 px-4 w-48 shadow rounded-xl break-words">
           <div className='text-base'>{message.message}</div>
           <div className='text-xs text-white/50'>{chatHour}</div>
         </div>
@@ -24,4 +24,4 @@ function Message({ message }) {
   );
 }
 
-export default Message;
+export default FriendMessage;

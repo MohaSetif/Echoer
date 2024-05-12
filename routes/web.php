@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\dashboardController;
+use App\Http\Controllers\friend_reqController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\MessageController;
 use Illuminate\Foundation\Application;
@@ -26,16 +28,17 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [dashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::get('chat', [MessageController::class, 'index'])->name('chat.index');
+
+    Route::post('/send_friend_request', [friend_reqController::class, 'sendRequest'])->name('send_friend_request');
+    Route::post('/accept-friend-request/{id}', [friend_reqController::class, 'acceptRequest'])->name('accept_friend_request');
 
     Route::group(['prefix' => 'chat', 'as' => 'chat.'], function() {
         Route::get('/{receiverId?}', [MessageController::class, 'index'])->name('index');
