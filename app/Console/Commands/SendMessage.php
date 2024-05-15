@@ -30,7 +30,7 @@ class SendMessage extends Command
         $message =  Message::create([
             "message" => "somthing", 
             "sender_id" => 2,
-            "receiver_id" => 3
+            "receiver_id" => 1
         ]);
         messageSent::dispatch($message);
     }

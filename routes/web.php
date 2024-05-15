@@ -36,9 +36,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::get('chat', [MessageController::class, 'index'])->name('chat.index');
+    Route::get('requests', [friend_reqController::class, 'index'])->name('chat.requests');
 
     Route::post('/send_friend_request', [friend_reqController::class, 'sendRequest'])->name('send_friend_request');
-    Route::post('/accept-friend-request/{id}', [friend_reqController::class, 'acceptRequest'])->name('accept_friend_request');
+    Route::post('/accept_friend_request', [friend_reqController::class, 'acceptRequest'])->name('accept_friend_request');
+    Route::post('/cancel_friend_request', [friend_reqController::class, 'cancelRequest'])->name('cancel_friend_request');
 
     Route::group(['prefix' => 'chat', 'as' => 'chat.'], function() {
         Route::get('/{receiverId?}', [MessageController::class, 'index'])->name('index');
