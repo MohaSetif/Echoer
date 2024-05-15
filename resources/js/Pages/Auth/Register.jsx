@@ -28,13 +28,9 @@ export default function Register() {
             ["encrypt", "decrypt"],
         );
          // Convert public key to PEM format to be easily readable
-        const exportedPublicKey = await window.crypto.subtle.exportKey("spki", publicKey);
-        const exportedPublicKeyPEM = `
-        -----BEGIN PUBLIC KEY-----
-        ${arrayBufferToBase64String(exportedPublicKey)}
-        -----END PUBLIC KEY-----
-        `;
-        setData('public_key', exportedPublicKeyPEM);
+        const exportedPublicKey = await window.crypto.subtle.exportKey("spki", publicKey)
+        const exportedPublicKeyPEM = arrayBufferToBase64String(exportedPublicKey)
+        setData('public_key', exportedPublicKeyPEM)
     }
 
     const arrayBufferToBase64String = (buffer) => {

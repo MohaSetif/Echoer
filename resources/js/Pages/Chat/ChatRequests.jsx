@@ -3,7 +3,7 @@ import { Head, useForm } from '@inertiajs/react';
 
 export default function ChatRequests({ auth, friends }) {
     const { data, setData, post } = useForm({
-        receiver_id: ''
+        sender_id: ''
     });
 
     const onHandleChange = (event) => {
@@ -41,7 +41,7 @@ export default function ChatRequests({ auth, friends }) {
                       <form onSubmit={submit}>
                           <button 
                               type='submit'
-                              name="receiver_id"
+                              name="sender_id"
                               value={friend.id}
                               onClick={onHandleChange}
                               className="bg-gray-700 border-solid border-2 border-gray-500 p-2 rounded-xl hover:bg-gray-600">

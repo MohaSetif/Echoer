@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
+use App\Models\Message;
+use App\Events\messageSent;
 
 class friend_reqController extends Controller
 {
@@ -48,37 +50,25 @@ class friend_reqController extends Controller
     }
 
     public function acceptRequest(Request $request){
-        $friendRequest = FriendRequest::where('receiver_id', $request->receiver_id)->first();
-    
+        $friendRequest = FriendRequest::where('sender_id', $request->sender_id)->where('receiver_id', auth()->id())->first();
         if (!$friendRequest) {
             return response()->json(['error' => 'Friend request not found.'], 404);
         }
     
-        $receiver = User::find($friendRequest->receiver_id);
-        $sender = User::find(Auth::user());
-
-        $senderPublicKey = $sender->public_key;
-        $receiverPublicKey = $receiver->public_key;
-    
-        // Swap public keys
-        $temp = $senderPublicKey;
-        $senderPublicKey = $receiverPublicKey;
-        $receiverPublicKey = $temp;
-    
-        $sender->update([
-            'public_key' => $receiverPublicKey
-        ]);
-    
-        $receiver->update([
-            'public_key' => $senderPublicKey
-        ]);
+        $receiver = User::where('id', auth()->user()->id)->first();
+        $sender = User::where('id', $request->sender_id)->first();
     
         $friendRequest->update([
-            'receiver_pub_key' => $receiverPublicKey,
+            'receiver_pub_key' => $receiver->public_key,
             'status' => 'accepted',
         ]);
-    
-        return response()->json(['message' => 'Friend request accepted successfully.'], 200);
+
+        $message =  Message::create([
+            "message" => "", 
+            "sender_id" => $sender->id,
+            "receiver_id" => $receiver->id
+        ]);
+        messageSent::dispatch($message);
     }
     
 }
