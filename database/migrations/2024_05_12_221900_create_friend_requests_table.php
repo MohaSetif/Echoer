@@ -15,8 +15,6 @@ return new class extends Migration
             $table->id();
             $table->string('sender_id');
             $table->string('receiver_id');
-            $table->text('sender_pub_key');
-            $table->text('receiver_pub_key')->nullable();
             $table->enum('status', ['pending', 'accepted']);
             $table->timestamps();
         });

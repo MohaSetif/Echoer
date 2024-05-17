@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\FriendRequest;
+use App\Models\Message;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Models\User;
@@ -18,11 +20,22 @@ class MessageController extends Controller
     public function index(Request $request, ?int $receiverId = null)
     {
         $messages = empty($receiverId) ? [] : $this->chat->getUserMessages((int) $request->user()->id, (int) $receiverId);
+        
+        $aes_key = FriendRequest::where(function($query) use ($receiverId) {
+            $query->where('receiver_id', $receiverId)
+                ->where('sender_id', auth()->user()->id);
+        })
+        ->orWhere(function($query) use ($receiverId) {
+            $query->where('receiver_id', auth()->user()->id)
+                ->where('sender_id', $receiverId);
+        })
+        ->first();
 
         return Inertia::render('Chat/chatIndex', [
             'messages' => $messages,
             'recentMessages' => $this->chat->getRecentUsersWithMessage($request->user()->id),
             'receiver' => User::find($receiverId),
+            'shared_key' => $aes_key ? $aes_key->shared_key : null
         ]);
     }
 

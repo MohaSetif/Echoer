@@ -15,7 +15,7 @@ function ChatBox({ messages, auth_id }) {
 
 
   const messagesEndRef = useRef(null);
-  console.log(messagesEndRef);
+  //console.log(messagesEndRef);
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'auto' });
   }, [messages]);

@@ -3,12 +3,26 @@ import { Head, useForm } from '@inertiajs/react';
 
 export default function ChatRequests({ auth, friends }) {
     const { data, setData, post } = useForm({
-        sender_id: ''
+        sender_id: '',
+        shared_key: ''
     });
 
+    const generateAESKey = async () => {
+      const key = await window.crypto.subtle.generateKey(
+          {
+              name: "AES-CTR",
+              length: 128,
+          },
+          true,
+          ["encrypt", "decrypt"]
+      );
+      
+      const exportedKey = await window.crypto.subtle.exportKey("raw", key)
+      setData('shared_key', key)
+    };
+  
     const onHandleChange = (event) => {
-        setData(event.target.name, event.target.value);
-        //console.log(event.target.name, event.target.value);
+        setData(event.target.name, event.target.value)
     };
 
     const submit = (e) => {

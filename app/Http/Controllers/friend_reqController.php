@@ -39,7 +39,6 @@ class friend_reqController extends Controller
         FriendRequest::create([
             'sender_id' => $sender->id,
             'receiver_id' => $receiver->id,
-            'sender_pub_key' => $sender->public_key,
             'status' => 'pending'
         ]);
     }
@@ -59,14 +58,13 @@ class friend_reqController extends Controller
         $sender = User::where('id', $request->sender_id)->first();
     
         $friendRequest->update([
-            'receiver_pub_key' => $receiver->public_key,
-            'status' => 'accepted',
+            'status' => 'accepted'
         ]);
-
         $message =  Message::create([
             "message" => "", 
             "sender_id" => $sender->id,
-            "receiver_id" => $receiver->id
+            "receiver_id" => $receiver->id,
+            'shared_key' => $request->shared_key
         ]);
         messageSent::dispatch($message);
     }

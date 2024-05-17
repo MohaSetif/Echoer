@@ -5,12 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class FriendRequest extends Model
+class Black_user extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'sender_id',
-        'receiver_id',
-        'status'
+        'email',
+        'adr'
     ];
 }
